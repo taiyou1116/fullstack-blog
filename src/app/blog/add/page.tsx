@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from 'next/navigation';
 import { useRef } from 'react'
 
 const postBlog = async (title: string | undefined, description: string | undefined) => {
@@ -15,6 +16,7 @@ const postBlog = async (title: string | undefined, description: string | undefin
 }
 
 const PostBlog = () => {
+  const router = useRouter();
   const titleRef = useRef<HTMLInputElement | null>(null);
   const descriptionRef = useRef<HTMLTextAreaElement | null>(null);
 
@@ -22,6 +24,9 @@ const PostBlog = () => {
     e.preventDefault();
 
     await postBlog(titleRef.current?.value, descriptionRef.current?.value);
+
+    router.push("/");
+    router.refresh();
   }
 
   return (
