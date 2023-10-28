@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from 'next/navigation';
-import { useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import toast, { Toaster } from 'react-hot-toast';
 
 const postBlog = async (title: string | undefined, description: string | undefined) => {
@@ -34,10 +34,13 @@ const PostBlog = () => {
         }
        );
     await res;
-
     router.push("/");
     router.refresh();
   }
+
+  useEffect(() => {
+    toast.remove();
+  }, [])
 
   return (
     <>

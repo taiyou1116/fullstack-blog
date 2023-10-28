@@ -48,6 +48,8 @@ export const EditPost = ({ params }: { params: { id: number } }) => {
     }).catch((err) => {
         toast.error(err + "エラーが発生しました");
     });
+    
+    toast.remove();
   }, [])
 
 
@@ -64,7 +66,6 @@ export const EditPost = ({ params }: { params: { id: number } }) => {
       }
     );
     await res;
-
     router.push("/");
     router.refresh();
   }
@@ -80,7 +81,6 @@ export const EditPost = ({ params }: { params: { id: number } }) => {
         }
     );
     await res;
-  
     router.push("/");
     router.refresh();
   }
