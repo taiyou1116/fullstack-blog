@@ -2,6 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 import { useRef } from 'react'
+import toast, { Toaster } from 'react-hot-toast';
 
 const postBlog = async (title: string | undefined, description: string | undefined) => {
   const res = await fetch(`http://localhost:3000/api/blog`, {
@@ -23,13 +24,24 @@ const PostBlog = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    await postBlog(titleRef.current?.value, descriptionRef.current?.value);
+    const res = postBlog(titleRef.current?.value, descriptionRef.current?.value);
+    toast.promise(
+      res,
+        {
+          loading: 'Posting...',
+          success: <b>Post!</b>,
+          error: <b>Could not post.</b>,
+        }
+       );
+    await res;
 
     router.push("/");
     router.refresh();
   }
 
   return (
+    <>
+    <Toaster />
     <div className="w-full m-auto flex my-4">
       <div className="flex flex-col justify-center items-center m-auto">
         <p className="text-2xl text-slate-500 font-bold p-3">ブログ新規作成 🚀</p>
@@ -51,6 +63,7 @@ const PostBlog = () => {
         </form>
       </div>
     </div>
+    </>
   )
 }
 
