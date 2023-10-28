@@ -1,6 +1,6 @@
 export type PostType = {
     id: number,
-    title: String,
-    description: String,
+    title: string,
+    description: string,
     date: Date,
 }

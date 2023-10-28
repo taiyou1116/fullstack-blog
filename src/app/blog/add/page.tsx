@@ -2,13 +2,26 @@
 
 import { useRef } from 'react'
 
+const postBlog = async (title: string | undefined, description: string | undefined) => {
+  const res = await fetch(`http://localhost:3000/api/blog`, {
+    method: "POST",
+    body: JSON.stringify({ title, description }),
+    headers: {
+        "Content-Type": "application/json",
+    }
+  })
+
+  return res.json();
+}
+
 const PostBlog = () => {
   const titleRef = useRef<HTMLInputElement | null>(null);
+  const descriptionRef = useRef<HTMLTextAreaElement | null>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    console.log(titleRef.current?.value);
+    await postBlog(titleRef.current?.value, descriptionRef.current?.value);
   }
 
   return (
@@ -23,6 +36,7 @@ const PostBlog = () => {
             className="rounded-md px-4 w-full py-2 my-2"
           />
           <textarea
+            ref={descriptionRef}
             placeholder="記事詳細を入力"
             className="rounded-md px-4 py-2 w-full my-2"
           ></textarea>
