@@ -2,7 +2,7 @@ import { PostType } from "@/types";
 import Link from "next/link";
 
 async function fetchAllBlogs() {
-  const res = await fetch(`http://localhost:3000/api/blog`, {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_END_POINT}/api/blog`, {
     cache: "no-store", //SSR
   })
   

@@ -6,13 +6,13 @@ import toast, { Toaster } from 'react-hot-toast';
 
 // 読み込んだブログのtitle, descriptionを返す
 const getBlogById = async (id:number) => {
-  const res = await fetch(`http://localhost:3000/api/blog/${id}`);
+  const res = await fetch(`${process.env.NEXT_PUBLIC_END_POINT}/api/blog/${id}`);
   const data = await res.json();
   return data.post;
 }
 
 const editBlog = async (title: string | undefined, description: string | undefined, id:number) => {
-  const res = await fetch(`http://localhost:3000/api/blog/${id}`, {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_END_POINT}/api/blog/${id}`, {
     method: "PUT",
     body: JSON.stringify({ title, description, id }),
     headers: {
@@ -24,7 +24,7 @@ const editBlog = async (title: string | undefined, description: string | undefin
 }
 
 const deleteBlog = async (id:number) => {
-    const res = await fetch(`http://localhost:3000/api/blog/${id}`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_END_POINT}/api/blog/${id}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
@@ -32,7 +32,7 @@ const deleteBlog = async (id:number) => {
     })
   }
 
-export const EditPost = ({ params }: { params: { id: number } }) => {
+export default function EditPost ({ params }: { params: { id: number } }) {
   const router = useRouter();
   const titleRef = useRef<HTMLInputElement | null>(null);
   const descriptionRef = useRef<HTMLTextAreaElement | null>(null);
@@ -116,4 +116,4 @@ export const EditPost = ({ params }: { params: { id: number } }) => {
   )
 }
 
-export default EditPost;
+// export default EditPost;
