@@ -1,17 +1,34 @@
+"use client";
+
 import { PostType } from "@/types";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
-async function fetchAllBlogs() {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_END_POINT}/api/blog`, {
-    cache: "no-store", //SSR
-  })
+// async function fetchAllBlogs() {
+//   const res = await fetch(`${process.env.NEXT_PUBLIC_END_POINT}/api/blog`, {
+//     cache: "no-store", //SSR
+//   })
   
-  const data = await res.json();
-  return data.posts;
-}
+//   const data = await res.json();
+//   return data.posts;
+// }
 
-export default async function Home() {
-  const posts = await fetchAllBlogs();
+export default function Home() {
+
+  const [posts, setPosts] = useState<PostType[]>([]); // 状態を管理するためのuseState
+
+  useEffect(() => { // コンポーネントがマウントされた後に実行されるuseEffect
+    async function fetchAllBlogs() {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_END_POINT}/api/blog`, {
+        cache: "no-store", 
+      });
+      
+      const data = await res.json();
+      setPosts(data.posts); // データを状態にセット
+    }
+
+    fetchAllBlogs(); // 非同期関数を呼び出し
+  }, []);
 
   return (
     <main className="w-full h-full">
