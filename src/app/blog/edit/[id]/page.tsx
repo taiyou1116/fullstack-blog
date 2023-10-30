@@ -50,7 +50,7 @@ export default function EditPost ({ params }: { params: { id: number } }) {
     });
     
     toast.remove();
-  }, [])
+  }, [params.id])
 
 
   const handleSubmit = async (e: React.FormEvent) => {
