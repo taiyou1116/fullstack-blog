@@ -5,7 +5,7 @@ import { useEffect, useRef } from 'react'
 import toast, { Toaster } from 'react-hot-toast';
 
 const postBlog = async (title: string | undefined, description: string | undefined) => {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_END_POINT}/api/blog`, {
+  const res = await fetch(`/api/blog`, {
     method: "POST",
     body: JSON.stringify({ title, description }),
     headers: {

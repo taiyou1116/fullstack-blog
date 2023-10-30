@@ -6,13 +6,13 @@ import toast, { Toaster } from 'react-hot-toast';
 
 // 読み込んだブログのtitle, descriptionを返す
 const getBlogById = async (id:number) => {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_END_POINT}/api/blog/${id}`);
+  const res = await fetch(`/api/blog/${id}`);
   const data = await res.json();
   return data.post;
 }
 
 const editBlog = async (title: string | undefined, description: string | undefined, id:number) => {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_END_POINT}/api/blog/${id}`, {
+  const res = await fetch(`/api/blog/${id}`, {
     method: "PUT",
     body: JSON.stringify({ title, description, id }),
     headers: {
@@ -24,12 +24,22 @@ const editBlog = async (title: string | undefined, description: string | undefin
 }
 
 const deleteBlog = async (id:number) => {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_END_POINT}/api/blog/${id}`, {
+    const res = await fetch(`/api/blog/${id}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
       }
     })
+
+    if (!res.ok) { // HTTPステータスコードが 200 OK でない場合
+      const text = await res.text(); // レスポンスをテキストとして読み取る
+      console.error(`Error: ${text}`); // エラー出力
+      throw new Error('サーバーエラーが発生しました');
+    }
+  
+    // レスポンスが200 OKの場合のみJSON解析を試みる
+    const data = await res.json();
+    return data;
   }
 
 export default function EditPost ({ params }: { params: { id: number } }) {
@@ -115,5 +125,3 @@ export default function EditPost ({ params }: { params: { id: number } }) {
     </>
   )
 }
-
-// export default EditPost;

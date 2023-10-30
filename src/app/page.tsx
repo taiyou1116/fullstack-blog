@@ -19,9 +19,7 @@ export default function Home() {
 
   useEffect(() => { // コンポーネントがマウントされた後に実行されるuseEffect
     async function fetchAllBlogs() {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_END_POINT}/api/blog`, {
-        cache: "no-store", 
-      });
+      const res = await fetch(`/api/blog`);
       
       const data = await res.json();
       setPosts(data.posts); // データを状態にセット
